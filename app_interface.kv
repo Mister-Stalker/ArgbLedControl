@@ -1,41 +1,111 @@
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 
 
+<ContentNavigationDrawer>
+
+    ScrollView:
+
+        MDList:
+            TwoLineAvatarListItem:
+                text: "ARGBLedControl"
+                secondary_text: "Управление адресными"
+                tertiary_text: "светодиодными лентами"
+                ImageLeftWidget:
+                    source: "icon.png"
+            OneLineIconListItem:
+                text: "Strip Control"
+
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "scr 1"
+
+                IconLeftWidget:
+                    icon: "alarm-light"
+
+            OneLineIconListItem:
+                text: "Settings"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "scr 2"
+                IconLeftWidget:
+                    icon: "cogs"
+
+
 MDScreenMain:
 
-    MDBottomNavigation:
-        panel_color: get_color_from_hex("#eeeaea")
-        selected_color_background: get_color_from_hex("#97ecf8")
-        text_color_active: 0, 0, 0, 1
+    MDToolbar:
+        id: toolbar
+        pos_hint: {"top": 1}
+        elevation: 10
+        title: "MDNavigationDrawer"
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
 
-        MDBottomNavigationItem:
-            name: 'screen 1'
-            text: 'Mail'
-            icon: 'gmail'
-            badge_icon: "numeric-10"
-            MDIconButton:
-                icon: "language-python"
-                pos_hint: {"center_x": .1, "center_y": .9}
-                on_press: root.say_hello("aboba")
-            MDLabel:
-                text: 'Mail'
-                halign: 'center'
+    MDNavigationLayout:
+        x: toolbar.height
 
-        MDBottomNavigationItem:
-            name: 'screen 2'
-            text: 'Discord'
-            icon: 'discord'
-            badge_icon: "numeric-5"
+        ScreenManager:
+            id: screen_manager
 
-            MDLabel:
-                text: 'Discord'
-                halign: 'center'
+            MDScreen:
+                name: "scr 1"
 
-        MDBottomNavigationItem:
-            name: 'screen 3'
-            text: 'LinkedIN'
-            icon: 'linkedin'
+                MDFloatingActionButton:
+                    icon: "numeric-1"
+                    pos_hint: {"center_x": .15, "center_y": .8}
+                    user_font_size: "64sp"
+                    on_press: root.send_on_board("mode 1")
+                    md_bg_color: app.theme_cls.primary_color
 
-            MDLabel:
-                text: 'LinkedIN'
-                halign: 'center'
+                MDFloatingActionButton:
+                    icon: "numeric-2"
+                    pos_hint: {"center_x": .35, "center_y": .8}
+                    user_font_size: "64sp"
+                    on_press: root.send_on_board("mode 2")
+                    md_bg_color: app.theme_cls.primary_color
+
+                MDFloatingActionButton:
+                    icon: "numeric-1"
+                    pos_hint: {"center_x": .15, "center_y": .6}
+                    user_font_size: "64sp"
+                    on_press: root.send_on_board("mode 10")
+                    md_bg_color: app.theme_cls.primary_color
+                MDFloatingActionButton:
+                    icon: "numeric-2"
+                    pos_hint: {"center_x": .35, "center_y": .6}
+                    user_font_size: "64sp"
+                    on_press: root.send_on_board("mode 11")
+                    md_bg_color: app.theme_cls.primary_color
+                MDFloatingActionButton:
+                    icon: "numeric-3"
+                    pos_hint: {"center_x": .55, "center_y": .6}
+                    user_font_size: "64sp"
+                    on_press: root.send_on_board("mode 12")
+                    md_bg_color: app.theme_cls.primary_color
+                MDFloatingActionButton:
+                    icon: "numeric-4"
+                    pos_hint: {"center_x": .75, "center_y": .6}
+                    user_font_size: "64sp"
+                    on_press: root.send_on_board("mode 13")
+                    md_bg_color: app.theme_cls.primary_color
+
+
+
+
+
+
+
+
+
+            MDScreen:
+                name: "scr 2"
+
+                MDLabel:
+                    text: "Screen 2"
+                    halign: "center"
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
