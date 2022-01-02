@@ -15,16 +15,22 @@ class ArgbLedControl(MDApp):
         self.icon = 'icon.png'
         # self.screen_manager = self.root.ids.screen_manager
         # return Builder.load_file("app_interface.kv")
-        return Builder.load_file("app_interface.kv")
+        self.root = Builder.load_file("app_interface.kv")
+        self.root.ids.debug_label.text = "DEBUG"
+
+
 
 
 class MDScreenMain(MDScreen):
-    def say_hello(self, arg=''):
-        print(f"hello from {arg}")
 
+    def send_on_board(self, arg):
+        try:
+            self.send(arg)
+        except Exception as e:
+            print("send error", e)
+            self.ids.debug_label.text = str(e)
 
-    @staticmethod
-    def send_on_board(arg):
+    def send(self, arg):
         mess = f'client_mess {arg}'
         server_address = ('192.168.0.123', 80)
         print('Подключено к {} порт {}'.format(*server_address))
@@ -43,6 +49,7 @@ class MDScreenMain(MDScreen):
             # mess = data.decode()
             print(f'Получено: {data.decode()}')
         except Exception as e:
+            print("error")
             print(e)
         finally:
             print('Закрываем сокет')
@@ -58,8 +65,12 @@ class MDScreenMain(MDScreen):
             return "#97ecf8"
         return "#eeeaea"
 
-    class ContentNavigationDrawer(MDBoxLayout):
-        screen_manager = ObjectProperty()
-        nav_drawer = ObjectProperty()
+
+class ContentNavigationDrawer(MDBoxLayout):
+
+    screen_manager = ObjectProperty()
+    nav_drawer = ObjectProperty()
+
 
 ArgbLedControl().run()
+

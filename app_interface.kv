@@ -29,6 +29,13 @@
                     root.screen_manager.current = "scr 2"
                 IconLeftWidget:
                     icon: "cogs"
+            OneLineIconListItem:
+                text: "Log"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    root.screen_manager.current = "scr 3"
+                IconLeftWidget:
+                    icon: "cogs"
 
 
 MDScreenMain:
@@ -100,6 +107,13 @@ MDScreenMain:
                 name: "scr 2"
 
                 MDLabel:
+                    text: "Screen 2"
+                    halign: "center"
+            MDScreen:
+                name: "scr 3"
+
+                MDLabel:
+                    id: debug_label
                     text: "Screen 2"
                     halign: "center"
 
