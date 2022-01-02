@@ -27,18 +27,18 @@ class MDScreenMain(MDScreen):
         try:
             self.send(arg)
         except Exception as e:
-            print("send error", e)
+            #print("send error", e)
             self.ids.debug_label.text = str(e)
 
     def send(self, arg):
         mess = f'client_mess {arg}'
         server_address = ('192.168.0.123', 80)
-        print('Подключено к {} порт {}'.format(*server_address))
+        #print('Подключено к {} порт {}'.format(*server_address))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(server_address)
         try:
             # Отправка данных
-            print(f'Отправка: {mess}')
+            #print(f'Отправка: {mess}')
             message = mess.encode()
             sock.sendall(message)
             # Смотрим ответ
@@ -47,10 +47,11 @@ class MDScreenMain(MDScreen):
             data = sock.recv(1024)
             amount_received += len(data)
             # mess = data.decode()
-            print(f'Получено: {data.decode()}')
+            #print(f'Получено: {data.decode()}')
         except Exception as e:
-            print("error")
-            print(e)
+            self.ids.debug_label.text = self.ids.debug_label.text + str(e)
+            #print("error")
+            #print(e)
         finally:
             print('Закрываем сокет')
             sock.close()
