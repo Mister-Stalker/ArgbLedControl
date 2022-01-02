@@ -2,6 +2,7 @@ import socket
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivymd.app import MDApp
+from kivy.uix.button import Button
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.screen import MDScreen
 from kivy.config import Config
@@ -12,6 +13,8 @@ class ArgbLedControl(MDApp):
 
     def build(self):
         self.theme_cls.material_style = "M3"
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "DeepOrange"
         self.icon = 'icon.png'
         # self.screen_manager = self.root.ids.screen_manager
         # return Builder.load_file("app_interface.kv")
@@ -23,22 +26,26 @@ class ArgbLedControl(MDApp):
 
 class MDScreenMain(MDScreen):
 
+    def set_brig(self, *arg):
+        # print(self.ids.brightness_slider.value)
+        self.send_on_board(f"setbrig {int(self.ids.brightness_slider.value)}")
+
     def send_on_board(self, arg):
         try:
-            self.send(arg)
+            self._send(arg)
         except Exception as e:
             #print("send error", e)
             self.ids.debug_label.text = str(e)
 
-    def send(self, arg):
+    def _send(self, arg):
         mess = f'client_mess {arg}'
         server_address = ('192.168.0.123', 80)
-        #print('Подключено к {} порт {}'.format(*server_address))
+        # print('Подключено к {} порт {}'.format(*server_address))
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(server_address)
         try:
             # Отправка данных
-            #print(f'Отправка: {mess}')
+            # print(f'Отправка: {mess}')
             message = mess.encode()
             sock.sendall(message)
             # Смотрим ответ
@@ -47,13 +54,13 @@ class MDScreenMain(MDScreen):
             data = sock.recv(1024)
             amount_received += len(data)
             # mess = data.decode()
-            #print(f'Получено: {data.decode()}')
+            # print(f'Получено: {data.decode()}')
         except Exception as e:
             self.ids.debug_label.text = self.ids.debug_label.text + str(e)
-            #print("error")
-            #print(e)
+            # print("error")
+            # print(e)
         finally:
-            print('Закрываем сокет')
+            # print('Закрываем сокет')
             sock.close()
 
     @staticmethod
@@ -72,6 +79,12 @@ class ContentNavigationDrawer(MDBoxLayout):
     screen_manager = ObjectProperty()
     nav_drawer = ObjectProperty()
 
-
+class ModeButton(Button):
+    pass
 ArgbLedControl().run()
+
+
+# ['Red', 'Pink','Purple', 'DeepPurple', 'Indigo', 'Blue',
+# 'LightBlue', 'Cyan', 'Teal', 'Green', 'LightGreen', 'Lime',
+# 'Yellow', 'Amber', 'Orange', 'DeepOrange', 'Brown', 'Gray', 'BlueGray']
 
