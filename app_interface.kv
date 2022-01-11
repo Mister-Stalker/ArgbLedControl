@@ -48,6 +48,9 @@ MDScreenMain:
         elevation: 10
         title: ""
         left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+        MDSwitch:
+            id: ip_switch
+            pos_hint: {'center_x': .5, 'center_y': .5}
 
     MDNavigationLayout:
         x: toolbar.height
@@ -136,13 +139,14 @@ MDScreenMain:
                             halign: "center"
                         MDSlider:
                             id: brightness_slider
-                            widget_style: "android"
                             min: 0
                             max: 100
-                            value: 40
+                            value: 10
                             on_touch_up:
                                 root.set_brig()
-
+                        MDLabel:
+                            size_hint_y: 0.3
+                            halign: "center"
 
 
 
@@ -154,9 +158,36 @@ MDScreenMain:
             MDScreen:
                 name: "scr 2"
 
-                MDLabel:
-                    text: "Screen 2"
-                    halign: "center"
+                MDBoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: 0.93
+                    MDBoxLayout:
+                        spacing: "32sp"
+                        adaptive_height: True
+                        MDFloatingActionButton
+                            icon: "download"
+                            type: "large"
+                            on_press:
+                                print("amogus")
+                                root.load_config()
+                        MDFloatingActionButton
+                            icon: "upload"
+                            type: "large"
+                            on_press: print("amogus2")
+                        Label:
+                            size_hint_x: 0.5
+                        MDSwitch:
+                            pos_hint: {'center_x': .5, 'center_y': .5}
+                        MDSwitch:
+                            pos_hint: {'center_x': .5, 'center_y': .5}
+                    MDBoxLayout:
+                        Button:
+                            text: "need"
+                    MDBoxLayout:
+                    MDBoxLayout:
+
+
+
             MDScreen:
                 name: "scr 3"
 
