@@ -28,6 +28,7 @@ class ArgbLedControl(MDApp):
         # return Builder.load_file("app_interface.kv")
         self.root = Builder.load_file("app_interface.kv")
         self.root.ids.debug_label.text = "DEBUG"
+        self.esp = EspConnection(self.root.ids)
 
 
 class MDScreenMain(MDScreen, EspConnection):
@@ -43,31 +44,9 @@ class MDScreenMain(MDScreen, EspConnection):
             "brightness": 10,
         }
 
-    def load_config(self):
 
-        try:
-
-            server_address = ('192.168.0.123', 80)
-            # print('Подключено к {} порт {}'.format(*server_address))
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.connect(server_address)
-            mess = "settings get_temp_json"
-            message = mess.encode()
-            sock.sendall(message)
-            # Смотрим ответ
-            amount_received = 0
-            # amount_expected = len(message)
-            data = sock.recv(1024).decode()
-            amount_received += len(data)
-            # mess = data.decode()
-            print(f'Получено: {data}')
-            self.esp["configs"] = json.loads(data)
-            print(self.esp)
-        except Exception as e:
-            print(e)
-
-    def set_lock_label(self, s: bool):
-        if s:
+    def set_lock_label(self):
+        if esp["lock"]:
             self.ids.lock_label.text = "LOCK"
         else:
             self.ids.lock_label.text = ""
@@ -82,45 +61,6 @@ class MDScreenMain(MDScreen, EspConnection):
             return '192.168.4.1'
         else:
             return '192.168.0.123'
-
-    def _run_command(self, command: str, *flags):
-        if self.esp["lock"]:
-            return
-        self.esp["lock"] = True
-        self.set_lock_label(True)
-        ip = self.get_current_ip()
-        if "-c" in flags:
-            r = self._send(ip, "command " + command)
-
-        self.esp["lock"] = False
-        self.set_lock_label(False)
-
-    def run_command(self, command: str, *flags):
-        try:
-            send_t = threading.Thread(target=self._run_command, args=(command, *flags))
-            send_t.start()
-        except Exception as e:
-            self.ids.debug_label.text = str(e)
-
-    def _send(self, ip, arg):
-
-        server_address = (ip, self.esp["port"])
-        try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.connect(server_address)
-            print('Подключено к {} порт {}'.format(*server_address))
-            print(f'Отправка: {arg}')
-            message = arg.encode()
-            sock.sendall(message)
-            amount_received = 0
-            data = sock.recv(4096).decode()
-            amount_received += len(data)
-            print(f'Получено: {data}')
-            sock.close()
-        except Exception as e:
-            data = "error"
-            self.ids.debug_label.text = self.ids.debug_label.text + str(e)
-        return data
 
     @staticmethod
     def get_color(arg=""):
