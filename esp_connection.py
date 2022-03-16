@@ -1,6 +1,7 @@
 import json
 import socket
 import time
+import threading
 
 
 class EspConnection:
@@ -45,7 +46,17 @@ class EspConnection:
         thread = threading.Thread(target=self.get_configs, args=(config_name,))
         thread.start()
     
-    
+    def set_brig(self, *arg):
+        if self.app_ids.brightness_slider.value != self["brightness"]:
+            self.command(f"setbrig {int(self.app_ids.brightness_slider.value)}", "-c")
+            self["brightness"] = self.app_ids.brightness_slider.value
+            
+    def set_lock_label(self):
+        if self["lock"]:
+            self.app_ids.lock_label.text = "LOCK"
+        else:
+            self.app_ids.lock_label.text = ""
+        
     def _get_configs(self, config_name: str = "main"):
         if not config_name in ["temp", "led", "main"]:
             config_name = "main"
