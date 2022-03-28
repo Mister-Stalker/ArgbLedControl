@@ -41,7 +41,6 @@
 
 
 MDScreenMain:
-
     MDToolbar:
         size_hint_y: 0.07
         id: toolbar
@@ -78,19 +77,19 @@ MDScreenMain:
                             padding: 5
                             ModeButton:
                                 text: "mode 1"
-                                on_press: root.run_command("mode 1", "-c")
+                                on_press: root.esp.command("mode 1", "-c")
 
                             ModeButton:
                                 text: "mode 2"
-                                on_press: root.run_command("mode 2", "-c")
+                                on_press: root.esp.command("mode 2", "-c")
 
                             ModeButton:
                                 text: "mode 1v2"
-                                on_press: root.run_command("mode 1", "-c")
+                                on_press: root.esp.command("mode 1", "-c")
 
                             ModeButton:
                                 text: "mode 4"
-                                on_press: root.run_command("mode 2", "-c")
+                                on_press: root.esp.command("mode 2", "-c")
 
                     MDBoxLayout:
                         orientation: "vertical"
@@ -104,38 +103,38 @@ MDScreenMain:
                             padding: 5
                             ModeButton:
                                 text: "color 1"
-                                on_press: root.run_command("mode 10", "-c")
+                                on_press: root.esp.command("mode 10", "-c")
                             ModeButton:
                                 text: "color 2"
-                                on_press: root.run_command("mode 11", "-c")
+                                on_press: root.esp.command("mode 11", "-c")
                             ModeButton:
                                 text: "color 3"
-                                on_press: root.run_command("mode 12", "-c")
+                                on_press: root.esp.command("mode 12", "-c")
                             ModeButton:
                                 text: "color 4"
-                                on_press: root.run_command("mode 13", "-c")
+                                on_press: root.esp.command("mode 13", "-c")
                             ModeButton:
                                 text: "color 5"
-                                on_press: root.run_command("mode 14", "-c")
+                                on_press: root.esp.command("mode 14", "-c")
                         MDBoxLayout:
                             orientation: "horizontal"
                             spacing: 5
                             padding: 5
                             ModeButton:
                                 text: "color 6"
-                                on_press: root.run_command("mode 15", "-c")
+                                on_press: root.esp.command("mode 15", "-c")
                             ModeButton:
                                 text: "color 7"
-                                on_press: root.run_command("mode 16", "-c")
+                                on_press: root.esp.command("mode 16", "-c")
                             ModeButton:
                                 text: "color 8"
-                                on_press: root.run_command("mode 17", "-c")
+                                on_press: root.esp.command("mode 17", "-c")
                             ModeButton:
                                 text: "color 9"
-                                on_press: root.run_command("mode 18", "-c")
+                                on_press: root.esp.command("mode 18", "-c")
                             ModeButton:
                                 text: "color 10"
-                                on_press: root.run_command("mode 19", "-c")
+                                on_press: root.esp.run_command("mode 19", "-c")
                     MDBoxLayout:
                         orientation: "vertical"
                         MDLabel:
@@ -198,7 +197,7 @@ MDScreenMain:
 
                 MDLabel:
                     id: debug_label
-                    text: "Screen 2"
+                    text: "Screen 3"
                     halign: "center"
 
         MDNavigationDrawer:
