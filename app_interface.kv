@@ -1,6 +1,9 @@
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 
+<IconListItem>
 
+    IconLeftWidget:
+        icon: root.icon
 <ModeButton>
     background_color: app.theme_cls.primary_color
 <ContentNavigationDrawer>
@@ -48,6 +51,11 @@ MDScreenMain:
         elevation: 10
         title: ""
         left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+        MDDropDownItem:
+            id: drop_item
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            text: '192.168.0.201'
+            on_release: app.menu.open()
         Label:
             id: lock_label
             text: ""
@@ -172,12 +180,14 @@ MDScreenMain:
                             icon: "download"
                             type: "large"
                             on_press:
-                                print("amogus")
-                                root.load_config()
+                                print("download")
+                                root.esp.load_config()
                         MDFloatingActionButton
                             icon: "upload"
                             type: "large"
-                            on_press: print("amogus2")
+                            on_press:
+                                print("upload")
+                                root.esp.upload_config()
                         Label:
                             size_hint_x: 0.5
                         MDSwitch:
