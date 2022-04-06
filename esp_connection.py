@@ -15,12 +15,15 @@ class EspConnection:
             "temp": {},
             "main": {},
             "led": {},
+            "GLOBAL_LOCK": True,
             "lock": True,  # блокировка при обмене данных для избежания сбоев
             "brightness": 10,
         }
     
     def _send_and_read(self, msg: str, sleep=0.5, read=True):
         if self["lock"]:
+            return
+        if self["GLOBAL_LOCK"]:
             print(f"ESP ip: {self.ip}   config: {self.data}")
             self.app_ids.lock_label.text = "LOCK"
             time.sleep(2)
