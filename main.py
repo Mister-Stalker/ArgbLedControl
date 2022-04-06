@@ -19,7 +19,20 @@ from esp_connection import EspConnection
 from kivy.metrics import dp
 Config.set('kivy', 'window_icon', 'icon.png')
 
+"""
+config.json
 
+{
+    "strip": {
+        "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
+                   [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
+    
+        }
+
+}
+
+
+"""
 class ArgbLedControl(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -63,6 +76,7 @@ class ArgbLedControl(MDApp):
 class MDScreenMain(MDScreen):
     def __init__(self, *args, **kwargs):
         super(MDScreenMain, self).__init__(*args, **kwargs)
+        self.configs = json.load("configs.json")
         self.esp = EspConnection(self.ids)
 
     def set_ip(self, text_item):  # for MDDropdownMenu
@@ -73,6 +87,22 @@ class MDScreenMain(MDScreen):
             self.ids.lock_label.text = "LOCK"
         else:
             self.ids.lock_label.text = ""
+            
+    def get_color(self, name: str):
+        color_list = {
+            "clr_1" : self.configs["strip"]["colors"][0],
+            "clr_2" : self.configs["strip"]["colors"][0],
+            "clr_3" : self.configs["strip"]["colors"][0],
+            "clr_4" : self.configs["strip"]["colors"][0],
+            "clr_1" : self.configs["strip"]["colors"][0],
+            "clr_1" : self.configs["strip"]["colors"][0],
+            "clr_1" : self.configs["strip"]["colors"][0],
+            "clr_1" : self.configs["strip"]["colors"][0],
+            "clr_1" : self.configs["strip"]["colors"][0],
+            "clr_1" : self.configs["strip"]["colors"][0],
+        }
+        
+        return list(map(lambda x: x/255, color_list[name]))
     
     def set_brig(self, *arg):
         if self.ids.brightness_slider.value != self.esp["brightness"]:
