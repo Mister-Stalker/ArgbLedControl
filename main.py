@@ -91,15 +91,15 @@ class MDScreenMain(MDScreen):
     def get_color(self, name: str):
         color_list = {
             "clr_1" : self.configs["strip"]["colors"][0],
-            "clr_2" : self.configs["strip"]["colors"][0],
-            "clr_3" : self.configs["strip"]["colors"][0],
-            "clr_4" : self.configs["strip"]["colors"][0],
-            "clr_1" : self.configs["strip"]["colors"][0],
-            "clr_1" : self.configs["strip"]["colors"][0],
-            "clr_1" : self.configs["strip"]["colors"][0],
-            "clr_1" : self.configs["strip"]["colors"][0],
-            "clr_1" : self.configs["strip"]["colors"][0],
-            "clr_1" : self.configs["strip"]["colors"][0],
+            "clr_2" : self.configs["strip"]["colors"][1],
+            "clr_3" : self.configs["strip"]["colors"][2],
+            "clr_4" : self.configs["strip"]["colors"][3],
+            "clr_5" : self.configs["strip"]["colors"][4],
+            "clr_6" : self.configs["strip"]["colors"][5],
+            "clr_7" : self.configs["strip"]["colors"][6],
+            "clr_8" : self.configs["strip"]["colors"][7],
+            "clr_9" : self.configs["strip"]["colors"][8],
+            "clr_10" : self.configs["strip"]["colors"][9],
         }
         
         return list(map(lambda x: x/255, color_list[name]))
