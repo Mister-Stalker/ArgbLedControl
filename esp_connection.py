@@ -9,6 +9,7 @@ class EspConnection:
         self.ip = ip
         self.app_ids = app_ids
         self.port = port
+        self.app_configs = json.load("configs.json")
         self.data = {
             "temp": {},
             "main": {},
