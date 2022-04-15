@@ -17,6 +17,20 @@ from kivymd.uix.menu import MDDropdownMenu
 import threading
 from esp_connection import EspConnection
 from kivy.metrics import dp
+import os
+
+if not os.path.exists("configs.json"):
+    with open("configs.json", "w") as f:
+        json.dump(
+            {
+                "strip": {
+                    "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
+                               [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
+
+                }
+
+            }, f)
+
 Config.set('kivy', 'window_icon', 'icon.png')
 
 """
@@ -33,12 +47,13 @@ config.json
 
 
 """
+
+
 class ArgbLedControl(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def build(self):
-
         self.theme_cls.material_style = "M3"
         self.theme_cls.theme_style = "Dark"
         # self.theme_cls.primary_palette = "DeepOrange"
@@ -76,47 +91,48 @@ class ArgbLedControl(MDApp):
 class MDScreenMain(MDScreen):
     def __init__(self, *args, **kwargs):
         super(MDScreenMain, self).__init__(*args, **kwargs)
-        self.configs = json.load("configs.json")
+        self.configs = json.load(open("configs.json"))
         self.esp = EspConnection(self.ids)
 
     def set_ip(self, text_item):  # for MDDropdownMenu
         self.esp.ip = text_item
-        
+
     def set_lock_label(self):
         if self.esp["lock"]:
             self.ids.lock_label.text = "LOCK"
         else:
             self.ids.lock_label.text = ""
-            
+
     def get_color(self, name: str):
         color_list = {
-            "clr_1" : self.configs["strip"]["colors"][0],
-            "clr_2" : self.configs["strip"]["colors"][1],
-            "clr_3" : self.configs["strip"]["colors"][2],
-            "clr_4" : self.configs["strip"]["colors"][3],
-            "clr_5" : self.configs["strip"]["colors"][4],
-            "clr_6" : self.configs["strip"]["colors"][5],
-            "clr_7" : self.configs["strip"]["colors"][6],
-            "clr_8" : self.configs["strip"]["colors"][7],
-            "clr_9" : self.configs["strip"]["colors"][8],
-            "clr_10" : self.configs["strip"]["colors"][9],
+            "clr_1": self.configs["strip"]["colors"][0],
+            "clr_2": self.configs["strip"]["colors"][1],
+            "clr_3": self.configs["strip"]["colors"][2],
+            "clr_4": self.configs["strip"]["colors"][3],
+            "clr_5": self.configs["strip"]["colors"][4],
+            "clr_6": self.configs["strip"]["colors"][5],
+            "clr_7": self.configs["strip"]["colors"][6],
+            "clr_8": self.configs["strip"]["colors"][7],
+            "clr_9": self.configs["strip"]["colors"][8],
+            "clr_10": self.configs["strip"]["colors"][9],
         }
-        
-        return list(map(lambda x: x/255, color_list[name]))
-    
-    def set_brig(self, *arg):
-        if self.ids.brightness_slider.value != self.esp["brightness"]:
-            self.esp.command(f"setbrig {int(self.ids.brightness_slider.value)}", "-c")
-            self.esp["brightness"] = self.ids.brightness_slider.value
 
+        return list(map(lambda x: x / 255, color_list[name]))
+
+    def set_brig(self, *arg):
+        if int(self.ids.brightness_slider.value) != self.esp["brightness"]:
+            self.esp.command(f"setbrig {int(self.ids.brightness_slider.value)}", "-c")
+            self.esp["brightness"] = int(self.ids.brightness_slider.value)
 
 
 class ContentNavigationDrawer(MDBoxLayout):
     screen_manager = ObjectProperty()
     nav_drawer = ObjectProperty()
 
+
 class IconListItem(OneLineIconListItem):
     icon = StringProperty()
+
 
 class ModeButton(Button):
     pass

@@ -112,23 +112,23 @@ MDScreenMain:
                             ModeButton:
                                 text: "color 1"
                                 background_color: root.get_color("clr_1") 
-                                on_press: root.esp.command("mode 10", "-c")
+                                on_press: root.esp.command("0", "-col")
                             ModeButton:
                                 text: "color 2"
                                 background_color: root.get_color("clr_2")
-                                on_press: root.esp.command("mode 11", "-c")
+                                on_press: root.esp.command("1", "-col")
                             ModeButton:
                                 text: "color 3"
                                 background_color: root.get_color("clr_3")
-                                on_press: root.esp.command("mode 12", "-c")
+                                on_press: root.esp.command("2", "-col")
                             ModeButton:
                                 text: "color 4"
                                 background_color: root.get_color("clr_4")
-                                on_press: root.esp.command("mode 13", "-c")
+                                on_press: root.esp.command("3", "-col")
                             ModeButton:
                                 text: "color 5"
                                 background_color: root.get_color("clr_5")
-                                on_press: root.esp.command("mode 14", "-c")
+                                on_press: root.esp.command("4", "-col")
                         MDBoxLayout:
                             orientation: "horizontal"
                             spacing: 5
@@ -136,23 +136,23 @@ MDScreenMain:
                             ModeButton:
                                 text: "color 6"
                                 background_color: root.get_color("clr_6")
-                                on_press: root.esp.command("mode 15", "-c")
+                                on_press: root.esp.command("5", "-col")
                             ModeButton:
                                 text: "color 7"
                                 background_color: root.get_color("clr_7")
-                                on_press: root.esp.command("mode 16", "-c")
+                                on_press: root.esp.command("6", "-col")
                             ModeButton:
                                 text: "color 8"
                                 background_color: root.get_color("clr_8")
-                                on_press: root.esp.command("mode 17", "-c")
+                                on_press: root.esp.command("7", "-col")
                             ModeButton:
                                 text: "color 9"
                                 background_color: root.get_color("clr_9")
-                                on_press: root.esp.command("mode 18", "-c")
+                                on_press: root.esp.command("8", "-col")
                             ModeButton:
                                 text: "color 10"
                                 background_color: root.get_color("clr_10")
-                                on_press: root.esp.run_command("mode 19", "-c")
+                                on_press: root.esp.command("9", "-col")
                     MDBoxLayout:
                         orientation: "vertical"
                         MDLabel:
