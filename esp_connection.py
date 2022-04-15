@@ -9,7 +9,17 @@ class EspConnection:
         self.ip = ip
         self.app_ids = app_ids
         self.port = port
-        self.app_configs = json.load(open("configs.json"))
+        try:
+            self.app_configs = json.load(open("configs.json"))
+        except Exception as e:
+            self.app_configs = {
+                "strip": {
+                    "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
+                               [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
+
+                }
+
+            }
         self.data = {
             "temp": {},
             "main": {},

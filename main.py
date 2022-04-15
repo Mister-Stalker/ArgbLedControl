@@ -18,19 +18,19 @@ import threading
 from esp_connection import EspConnection
 from kivy.metrics import dp
 import os
-
-if not os.path.exists("configs.json"):
-    with open("configs.json", "w") as f:
+try:
+    if not os.path.exists("configs.json"):
         json.dump(
-            {
-                "strip": {
-                    "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
-                               [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
+                {
+                    "strip": {
+                        "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
+                                   [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
 
-                }
+                    }
 
-            }, f)
-
+                }, open("configs.json", "w"))
+except:
+    pass
 Config.set('kivy', 'window_icon', 'icon.png')
 
 """
@@ -91,7 +91,17 @@ class ArgbLedControl(MDApp):
 class MDScreenMain(MDScreen):
     def __init__(self, *args, **kwargs):
         super(MDScreenMain, self).__init__(*args, **kwargs)
-        self.configs = json.load(open("configs.json"))
+        try:
+            self.configs = json.load(open("configs.json"))
+        except Exception as e:
+            self.configs = {
+                "strip": {
+                    "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
+                        [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
+
+                    }
+                }
+            self.ids.debug_label.text = str(e)
         self.esp = EspConnection(self.ids)
 
     def set_ip(self, text_item):  # for MDDropdownMenu
