@@ -4,6 +4,7 @@ import threading
 import json
 
 
+
 class EspConnection:
     def __init__(self, app_ids, ip="192.168.0.201", port=80):
         self.ip = ip
