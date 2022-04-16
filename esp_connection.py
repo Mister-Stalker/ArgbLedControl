@@ -10,7 +10,7 @@ class EspConnection:
         self.app_ids = app_ids
         self.port = port
         try:
-            self.configs = json.load(open("configs.json"))
+            self.app_configs = json.load(open("configs.json"))
         except Exception as e:
             self.app_configs = {
                 "strip": {
@@ -21,6 +21,7 @@ class EspConnection:
             }
 
         self.data = {
+            "color": "255_255_255",
             "temp": {},
             "main": {},
             "led": {},
@@ -102,6 +103,20 @@ class EspConnection:
         d = json.loads(r)
         if type(d) == dict:
             self[config_name] = d
+
+    @staticmethod
+    def color_255(color):
+        return list(map(lambda x: int(x*255), color))
+
+    def color_picker(self, touch=None):
+        print(self.app_ids.color_picker_1.color)
+        color = "_".join(map(str, self.color_255(self.app_ids.color_picker_1.color)[:-1]))
+        # color = f"{self.app_ids.color_picker_1.r}_{self.app_ids.color_picker_1.g}_{self.app_ids.color_picker_1.b}"
+        print(color)
+        if color != self["color"]:
+            self["color"] = color
+
+            r = self._send_and_read(f"command rgb {color}")
 
     def __getitem__(self, item):
         if item == "ip":

@@ -205,8 +205,9 @@ MDScreenMain:
                         MDSwitch:
                             pos_hint: {'center_x': .5, 'center_y': .5}
                     MDBoxLayout:
-                        Button:
-                            text: "need"
+                        ColorPicker:
+                            id: color_picker_1
+                            on_touch_up: root.esp.color_picker()
                     MDBoxLayout:
                     MDBoxLayout:
 

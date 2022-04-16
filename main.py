@@ -11,7 +11,6 @@ class ArgbLedControlPost(App):
 
 e_text = "Hello, World!!!!!!"
 
-
 try:
     import program
     app = program.ArgbLedControl()
@@ -19,3 +18,4 @@ try:
 except Exception as e:
     e_text = str(e)
     ArgbLedControlPost().run()
+    raise e
