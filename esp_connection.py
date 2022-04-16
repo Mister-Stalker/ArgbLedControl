@@ -1,4 +1,3 @@
-import json
 import socket
 import time
 import threading
@@ -9,10 +8,7 @@ class EspConnection:
         self.ip = ip
         self.app_ids = app_ids
         self.port = port
-        try:
-            self.app_configs = json.load(open("configs.json"))
-        except Exception as e:
-            self.app_configs = {
+        self.app_configs = {
                 "strip": {
                     "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
                                [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
@@ -95,6 +91,7 @@ class EspConnection:
             self.app_ids.lock_label.text = ""
 
     def _get_config(self, config_name: str = "main"):
+        import json
         if not config_name in ["temp", "led", "main"]:
             config_name = "main"
         r = self._send_and_read(f"settings get_{config_name}_json")

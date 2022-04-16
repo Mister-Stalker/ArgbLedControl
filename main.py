@@ -1,7 +1,10 @@
-import json
+
 import socket
 import time
+
+import kivymd.uix
 from kivy.properties import StringProperty
+from kivy.app import App
 
 from kivymd.uix.list import OneLineIconListItem
 from kivy.app import async_runTouchApp
@@ -18,19 +21,20 @@ import threading
 from esp_connection import EspConnection
 from kivy.metrics import dp
 import os
-try:
-    if not os.path.exists("configs.json"):
-        json.dump(
-                {
-                    "strip": {
-                        "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
-                                   [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
-
-                    }
-
-                }, open("configs.json", "w"))
-except:
-    pass
+from kivymd.uix.label import Label
+# try:
+#     if not os.path.exists("configs.json"):
+#         json.dump(
+#                 {
+#                     "strip": {
+#                         "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
+#                                    [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
+#
+#                     }
+#
+#                 }, open("configs.json", "w"))
+# except:
+#     pass
 Config.set('kivy', 'window_icon', 'icon.png')
 
 """
@@ -91,17 +95,14 @@ class ArgbLedControl(MDApp):
 class MDScreenMain(MDScreen):
     def __init__(self, *args, **kwargs):
         super(MDScreenMain, self).__init__(*args, **kwargs)
-        try:
-            self.configs = json.load(open("configs.json"))
-        except Exception as e:
-            self.configs = {
+
+        self.configs = {
                 "strip": {
                     "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
                         [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
 
                     }
                 }
-            self.ids.debug_label.text = str(e)
         self.esp = EspConnection(self.ids)
 
     def set_ip(self, text_item):  # for MDDropdownMenu
@@ -148,11 +149,23 @@ class ModeButton(Button):
     pass
 
 
+class ArgbLedControlPost(App):
+    def build(self):
+        label = Label(text=e_text)
+        return label
+
+e_text = "e_text"
 # loop = asyncio.get_event_loop()
 # loop.run_until_complete(ArgbLedControl().async_run(async_lib="asyncio"))
 # loop.close()
 if __name__ == '__main__':
-    ArgbLedControl().run()
+    try:
+        x = 1/0
+        ArgbLedControl().run()
+    except Exception as e:
+        e_text = str(e)
+        ArgbLedControlPost().run()
+
 
 # ['Red', 'Pink','Purple', 'DeepPurple', 'Indigo', 'Blue',
 # 'LightBlue', 'Cyan', 'Teal', 'Green', 'LightGreen', 'Lime',
