@@ -62,9 +62,10 @@ class ArgbLedControl(MDApp):
         self.icon = 'icon.png'
         # self.screen_manager = self.root.ids.screen_manager
         # return Builder.load_file("app_interface.kv")
+        Builder.load_file("main_screen.kv")
         self.root = Builder.load_file("app_interface.kv")
         self.root.ids.debug_label.text = "DEBUG"
-
+        self.esp = EspConnection(self.root.ids)
         menu_items = [
             {
                 "viewclass": "IconListItem",
@@ -82,7 +83,8 @@ class ArgbLedControl(MDApp):
             width_mult=4,
         )
         self.menu.bind()
-
+    def pr(self, text="Hello, world!"):
+        print(text)
     def set_ip(self, text_item):
         self.root.ids.drop_item.set_item(text_item)
         self.menu.dismiss()
@@ -137,6 +139,26 @@ class MDScreenMain(MDScreen):
         if int(self.ids.brightness_slider.value) != self.esp["brightness"]:
             self.esp.command(f"setbrig {int(self.ids.brightness_slider.value)}", "-c")
             self.esp["brightness"] = int(self.ids.brightness_slider.value)
+
+
+class MainScreen(MDScreen):
+    configs = json.load(open("configs.json"))
+    def get_color(self, name: str):
+        color_list = {
+            "clr_1": self.configs["strip"]["colors"][0],
+            "clr_2": self.configs["strip"]["colors"][1],
+            "clr_3": self.configs["strip"]["colors"][2],
+            "clr_4": self.configs["strip"]["colors"][3],
+            "clr_5": self.configs["strip"]["colors"][4],
+            "clr_6": self.configs["strip"]["colors"][5],
+            "clr_7": self.configs["strip"]["colors"][6],
+            "clr_8": self.configs["strip"]["colors"][7],
+            "clr_9": self.configs["strip"]["colors"][8],
+            "clr_10": self.configs["strip"]["colors"][9],
+        }
+
+        return list(map(lambda x: x / 255, color_list[name]))
+
 
 
 class ContentNavigationDrawer(MDBoxLayout):

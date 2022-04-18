@@ -69,109 +69,8 @@ MDScreenMain:
         ScreenManager:
             id: screen_manager
 
-            MDScreen:
+            MainScreen:
                 name: "scr 1"
-                MDBoxLayout:
-                    size_hint_y: 0.93
-                    orientation: "vertical"
-                    MDBoxLayout:
-                        orientation: "vertical"
-                        MDLabel:
-                            size_hint_y: 0.3
-                            text: "мигающие режимы"
-                            halign: "center"
-                        MDBoxLayout:
-                            spacing: 5
-                            padding: 5
-                            ModeButton:
-                                text: "mode 1"
-                                on_press: root.esp.command("mode 1", "-c")
-
-                            ModeButton:
-                                text: "mode 2"
-                                on_press: root.esp.command("mode 2", "-c")
-
-                            ModeButton:
-                                text: "mode 1v2"
-                                on_press: root.esp.command("mode 1", "-c")
-
-                            ModeButton:
-                                text: "mode 4"
-                                on_press: root.esp.command("mode 2", "-c")
-
-                    MDBoxLayout:
-                        orientation: "vertical"
-                        MDLabel:
-                            size_hint_y: 0.6
-                            text: "Просто цвета"
-                            halign: "center"
-                        MDBoxLayout:
-                            orientation: "horizontal"
-                            spacing: 5
-                            padding: 5
-                            ModeButton:
-                                text: "color 1"
-                                background_color: root.get_color("clr_1") 
-                                on_press: root.esp.command("0", "-col")
-                            ModeButton:
-                                text: "color 2"
-                                background_color: root.get_color("clr_2")
-                                on_press: root.esp.command("1", "-col")
-                            ModeButton:
-                                text: "color 3"
-                                background_color: root.get_color("clr_3")
-                                on_press: root.esp.command("2", "-col")
-                            ModeButton:
-                                text: "color 4"
-                                background_color: root.get_color("clr_4")
-                                on_press: root.esp.command("3", "-col")
-                            ModeButton:
-                                text: "color 5"
-                                background_color: root.get_color("clr_5")
-                                on_press: root.esp.command("4", "-col")
-                        MDBoxLayout:
-                            orientation: "horizontal"
-                            spacing: 5
-                            padding: 5
-                            ModeButton:
-                                text: "color 6"
-                                background_color: root.get_color("clr_6")
-                                on_press: root.esp.command("5", "-col")
-                            ModeButton:
-                                text: "color 7"
-                                background_color: root.get_color("clr_7")
-                                on_press: root.esp.command("6", "-col")
-                            ModeButton:
-                                text: "color 8"
-                                background_color: root.get_color("clr_8")
-                                on_press: root.esp.command("7", "-col")
-                            ModeButton:
-                                text: "color 9"
-                                background_color: root.get_color("clr_9")
-                                on_press: root.esp.command("8", "-col")
-                            ModeButton:
-                                text: "color 10"
-                                background_color: root.get_color("clr_10")
-                                on_press: root.esp.command("9", "-col")
-                    MDBoxLayout:
-                        orientation: "vertical"
-                        MDLabel:
-                            size_hint_y: 0.3
-                            text: "изменение яркости"
-                            halign: "center"
-                        MDSlider:
-                            id: brightness_slider
-                            min: 0
-                            max: 100
-                            value: 10
-                            on_touch_up:
-                                root.set_brig()
-                        MDLabel:
-                            size_hint_y: 0.3
-                            halign: "center"
-
-
-
 
 
 
@@ -191,13 +90,13 @@ MDScreenMain:
                             type: "large"
                             on_press:
                                 print("download")
-                                root.esp.load_config()
+                                app.esp.load_config()
                         MDFloatingActionButton
                             icon: "upload"
                             type: "large"
                             on_press:
                                 print("upload")
-                                root.esp.upload_config()
+                                app.esp.upload_config()
                         Label:
                             size_hint_x: 0.5
                         MDSwitch:
@@ -207,7 +106,7 @@ MDScreenMain:
                     MDBoxLayout:
                         ColorPicker:
                             id: color_picker_1
-                            on_touch_up: root.esp.color_picker()
+                            on_touch_up: app.esp.color_picker()
                     MDBoxLayout:
                     MDBoxLayout:
 
