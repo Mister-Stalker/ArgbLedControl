@@ -116,8 +116,9 @@ class EspConnection:
         print(color)
         if color != self["color"]:
             self["color"] = color
+            thread = threading.Thread(target=self._send_and_read, args=(f"command rgb {color}",))
 
-            r = self._send_and_read(f"command rgb {color}")
+            thread.start()
 
     def __getitem__(self, item):
         if item == "ip":
