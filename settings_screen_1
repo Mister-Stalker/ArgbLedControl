@@ -1,0 +1,23 @@
+<SettingsScreen@MDScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+        size_hint_y: 0.93
+        MDBoxLayout:
+            spacing: "32sp"
+            adaptive_height: True
+            MDFloatingActionButton
+                icon: "download"
+                type: "large"
+                on_press:
+                    print("download")
+                    app.esp.load_config()
+            MDFloatingActionButton
+                icon: "upload"
+                type: "large"
+                on_press:
+                    print("upload")
+                    app.esp.upload_config()
+        MDBoxLayout:
+            
+        MDBoxLayout:
+        MDBoxLayout:
