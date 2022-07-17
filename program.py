@@ -1,4 +1,3 @@
-
 import socket
 import time
 import json
@@ -22,16 +21,17 @@ from esp_connection import EspConnection
 from kivy.metrics import dp
 import os
 from kivy.uix.label import Label
+
 Config.set('kivy', 'window_icon', 'icon.png')
 try:
     if not os.path.exists("configs.json"):
         json.dump(
-                {
-                    "strip": {
-                        "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
-                                   [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
-                    }
-                }, open("configs.json", "w"))
+            {
+                "strip": {
+                    "colors": [[242, 152, 17], [221, 240, 14], [18, 237, 14], [44, 14, 237], [255, 50, 0],
+                               [219, 18, 55], [153, 26, 199], [145, 17, 242], [255, 255, 255], [255, 255, 0]]
+                }
+            }, open("configs.json", "w"))
 except:
     pass
 
@@ -54,6 +54,8 @@ config.json
 class ArgbLedControl(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.esp = None
+        self.board_names = None
 
     def build(self):
         self.theme_cls.material_style = "M3"
@@ -66,6 +68,12 @@ class ArgbLedControl(MDApp):
         self.root = Builder.load_file("app_interface.kv")
         self.root.ids.debug_label.text = "DEBUG"
         self.esp = EspConnection(self.root.ids)
+        self.board_names = {
+            "зал": "192.168.0.201",
+            "кухня": "192.168.0.202",
+            "спальня": "192.168.0.203",
+
+        }
         menu_items = [
             {
                 "viewclass": "IconListItem",
@@ -73,24 +81,25 @@ class ArgbLedControl(MDApp):
                 "text": ip,
                 "height": dp(56),
                 "on_release": lambda x=ip: self.set_ip(x),
-            } for ip in ["192.168.0.201", "192.168.0.202"]
+            } for ip in self.board_names.keys()
         ]
 
         self.menu = MDDropdownMenu(
             caller=self.root.ids.drop_item,
             items=menu_items,
-            position="center",
+            # position="center",
             width_mult=4,
         )
         self.menu.bind()
+
     def pr(self, text="Hello, world!"):
         print(text)
+
     def set_ip(self, text_item):
         self.root.ids.drop_item.set_item(text_item)
         self.menu.dismiss()
-        self.root.esp["ip"] = text_item
+        self.root.esp["ip"] = self.board_names[text_item]
     # self.esp = EspConnection(self.root.ids)
-
 
 
 class MDScreenMain(MDScreen):
@@ -143,6 +152,7 @@ class MDScreenMain(MDScreen):
 
 class MainScreen(MDScreen):
     configs = json.load(open("configs.json"))
+
     def get_color(self, name: str):
         color_list = {
             "clr_1": self.configs["strip"]["colors"][0],
@@ -160,7 +170,6 @@ class MainScreen(MDScreen):
         return list(map(lambda x: x / 255, color_list[name]))
 
 
-
 class ContentNavigationDrawer(MDBoxLayout):
     screen_manager = ObjectProperty()
     nav_drawer = ObjectProperty()
@@ -172,9 +181,6 @@ class IconListItem(OneLineIconListItem):
 
 class ModeButton(Button):
     pass
-
-
-
 
 # ['Red', 'Pink','Purple', 'DeepPurple', 'Indigo', 'Blue',
 # 'LightBlue', 'Cyan', 'Teal', 'Green', 'LightGreen', 'Lime',

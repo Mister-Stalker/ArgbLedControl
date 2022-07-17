@@ -11,12 +11,15 @@ class ArgbLedControlPost(App):
 
 
 e_text = "Hello, World!!!!!!"
-
-try:
-    import program
-    app = program.ArgbLedControl()
-    app.run()
-except Exception as e:
-    e_text = str(e)
-    ArgbLedControlPost().run()
-    raise e
+import program
+app = program.ArgbLedControl()
+app.run()
+#
+# try:
+#     import program
+#     app = program.ArgbLedControl()
+#     app.run()
+# except Exception as e:
+#     e_text = str(e)
+#     ArgbLedControlPost().run()
+#     raise e

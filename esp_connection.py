@@ -4,12 +4,12 @@ import threading
 import json
 
 
-
 class EspConnection:
     def __init__(self, app_ids, ip="192.168.0.201", port=80):
         self.ip = ip
         self.app_ids = app_ids
         self.port = port
+        print(dir(self.app_ids))
         try:
             self.app_configs = json.load(open("configs.json"))
         except Exception as e:
@@ -86,9 +86,10 @@ class EspConnection:
         thread.start()
 
     def set_brig(self, *arg):
-        if self.app_ids.brightness_slider.value != self["brightness"]:
-            self.command(f"setbrig {int(self.app_ids.brightness_slider.value)}", "-c")
-            self["brightness"] = self.app_ids.brightness_slider.value
+
+        if int(self.app_ids.scr_main.ids.brightness_slider.value) != self.brightness:
+            self.command(f"setbrig {int(self.app_ids.scr_main.ids.brightness_slider.value)}", "-c")
+            self["brightness"] = int(self.app_ids.scr_main.ids.brightness_slider.value)
 
     def set_lock_label(self):
         if self["lock"]:
@@ -107,7 +108,7 @@ class EspConnection:
 
     @staticmethod
     def color_255(color):
-        return list(map(lambda x: int(x*255), color))
+        return list(map(lambda x: int(x * 255), color))
 
     def color_picker(self, touch=None):
         print(self.app_ids.color_picker_1.color)
@@ -117,7 +118,7 @@ class EspConnection:
         if color != self["color"]:
             self["color"] = color
 
-            r = self._send_and_read(f"command rgb {color}")
+            self.command(f"rgb {color}", "-c")
 
     def __getitem__(self, item):
         if item == "ip":
@@ -129,3 +130,7 @@ class EspConnection:
             self.ip = value
         else:
             self.data[key] = value
+
+    @property
+    def brightness(self):
+        return self.data["brightness"]
