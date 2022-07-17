@@ -119,15 +119,6 @@ class MDScreenMain(MDScreen):
             self.ids.debug_label.text = str(e)
         self.esp = EspConnection(self.ids)
 
-    def set_ip(self, text_item):  # for MDDropdownMenu
-        self.esp.ip = text_item
-
-    def set_lock_label(self):
-        if self.esp["lock"]:
-            self.ids.lock_label.text = "LOCK"
-        else:
-            self.ids.lock_label.text = ""
-
     def get_color(self, name: str):
         color_list = {
             "clr_1": self.configs["strip"]["colors"][0],
@@ -143,11 +134,6 @@ class MDScreenMain(MDScreen):
         }
 
         return list(map(lambda x: x / 255, color_list[name]))
-
-    def set_brig(self, *arg):
-        if int(self.ids.brightness_slider.value) != self.esp["brightness"]:
-            self.esp.command(f"setbrig {int(self.ids.brightness_slider.value)}", "-c")
-            self.esp["brightness"] = int(self.ids.brightness_slider.value)
 
 
 class MainScreen(MDScreen):
