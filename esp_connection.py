@@ -5,8 +5,18 @@ import json
 
 
 class EspConnection:
+    data = {
+        "color": "255_255_255",
+        "temp": {},
+        "main": {},
+        "led": {},
+        "GLOBAL_LOCK": True,
+        "lock": False,  # блокировка при обмене данных для избежания сбоев
+        "brightness": 10,
+    }
+    ip = "192.168.0.201"
     def __init__(self, app_ids, ip="192.168.0.201", port=80):
-        self.ip = ip
+
         self.app_ids = app_ids
         self.port = port
         print(dir(self.app_ids))
@@ -21,15 +31,15 @@ class EspConnection:
                 }
             }
 
-        self.data = {
-            "color": "255_255_255",
-            "temp": {},
-            "main": {},
-            "led": {},
-            "GLOBAL_LOCK": False,
-            "lock": False,  # блокировка при обмене данных для избежания сбоев
-            "brightness": 10,
-        }
+        # self.data = {
+        #     "color": "255_255_255",
+        #     "temp": {},
+        #     "main": {},
+        #     "led": {},
+        #     "GLOBAL_LOCK": True,
+        #     "lock": False,  # блокировка при обмене данных для избежания сбоев
+        #     "brightness": 10,
+        # }
 
     def _send_and_read(self, msg: str, sleep=0.5, read=True):
 

@@ -17,6 +17,8 @@ from kivy.config import Config
 from kivymd.uix.button import MDIconButton
 from kivymd.uix.menu import MDDropdownMenu
 import threading
+
+import esp_connection
 from esp_connection import EspConnection
 from kivy.metrics import dp
 import os
@@ -98,7 +100,9 @@ class ArgbLedControl(MDApp):
     def set_ip(self, text_item):
         self.root.ids.drop_item.set_item(text_item)
         self.menu.dismiss()
-        self.root.esp["ip"] = self.board_names[text_item]
+        print(text_item)
+        esp_connection.EspConnection.ip = self.board_names[text_item]
+        print(self.root.esp["ip"])
     # self.esp = EspConnection(self.root.ids)
 
 
@@ -118,6 +122,8 @@ class MDScreenMain(MDScreen):
             }
             self.ids.debug_label.text = str(e)
         self.esp = EspConnection(self.ids)
+
+
 
     def get_color(self, name: str):
         color_list = {
